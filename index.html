@@ -298,15 +298,15 @@ function updateRun(f,dt){
   runT+=dt; speed=speedAt(runT); scroll+=speed*f;
   // прыжок
   const buffered = pressQueued && performance.now()-pressQueued<130;
-  if(buffered && P.h<=0.01){ P.vy=7.6; P.air=true; pressQueued=0; sfx.jump(); haptic('jump'); }
+  if(buffered && P.h<=0.01){ P.vy=8.8; P.air=true; pressQueued=0; sfx.jump(); haptic('jump'); }
   if(P.air){ if(!holding && P.vy>3) P.vy=3; P.vy-=0.42*f; P.h+=P.vy*f; if(P.h<=0){ P.h=0; P.vy=0; P.air=false; } }
   P.ph+=speed*f*0.09; P.frame=Math.floor(P.ph);
   // собаки
   if(runT<GOAL-6){ nextSpawn-=dt; if(nextSpawn<=0){
-      const extra=Math.random()*0.4, pack=runT>25&&Math.random()<0.18;
+      const extra=Math.random()*0.4, pack=runT>30&&Math.random()<0.1;
       dogs.push({x:W+8,extra,kind:1+Math.floor(Math.random()*3),frame:0,ph:0,open:false,barked:false});
       if(pack) dogs.push({x:W+8+36,extra,kind:1+Math.floor(Math.random()*3),frame:0,ph:0,open:false,barked:false});
-      const v=(speed+extra)*60, minGap=(speed*40+(pack?70:34))/v; const span=lerp(1.6,0.8,clamp(runT/55,0,1));
+      const v=(speed+extra)*60, minGap=(speed*46+(pack?80:44))/v; const span=lerp(2.0,1.1,clamp(runT/55,0,1));
       nextSpawn=minGap+Math.random()*span; } }
   dogs.forEach(d=>{ d.x-=(speed+d.extra)*f; d.ph+=f*0.25; d.frame=Math.floor(d.ph); d.open=(Math.floor(d.ph/3)%2===0)&&d.x<W*0.7;
     if(!d.barked&&d.x<W-20){ d.barked=true; if(Math.random()<0.5) sfx.bark(); } });
